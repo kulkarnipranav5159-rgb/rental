@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browse Our Fleet – GreenWheels</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
+
+    /* Navbar */
+    nav { background-color: #1a7a4a; padding: 14px 30px; display: flex; justify-content: space-between; align-items: center; }
+    nav .logo { color: white; font-size: 22px; font-weight: bold; text-decoration: none; }
+    nav ul { list-style: none; display: flex; gap: 24px; }
+    nav ul li a { color: white; text-decoration: none; font-size: 15px; }
+
+    /* Header & Filters */
+    .header-section { background: white; padding: 40px 30px; text-align: center; border-bottom: 1px solid #ddd; }
+    .header-section h1 { font-size: 28px; margin-bottom: 10px; color: #1a7a4a; }
+    
+    .filter-bar { 
+      max-width: 1100px; 
+      margin: 20px auto; 
+      padding: 0 30px; 
+      display: flex; 
+      gap: 15px; 
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 18px;
+      border: 1px solid #1a7a4a;
+      background: white;
+      color: #1a7a4a;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .filter-btn.active, .filter-btn:hover { background: #1a7a4a; color: white; }
+
+    /* Cars Grid */
+    .fleet-container { max-width: 1100px; margin: 30px auto; padding: 0 30px; }
+    .cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+    
+    .car-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .car-card:hover { transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+    
+    .car-img-box {
+      height: 180px;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 70px;
+    }
+    
+    .car-content { padding: 20px; }
+    .car-name { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+    .car-meta { font-size: 13px; color: #888; margin-bottom: 15px; display: flex; justify-content: space-between; }
+    
+    .car-stats { display: flex; gap: 10px; margin-bottom: 15px; }
+    .stat-pill { background: #f0f0f0; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    
+    .price-row { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 15px; }
+    .price-val { font-size: 18px; font-weight: bold; color: #1a7a4a; }
+    .btn-book { 
+      background: #1a7a4a; 
+      color: white; 
+      padding: 8px 16px; 
+      border-radius: 5px; 
+      text-decoration: none; 
+      font-size: 14px; 
+      font-weight: bold;
+    }
+
+    footer { background-color: #1a7a4a; color: white; text-align: center; padding: 20px; margin-top: 50px; font-size: 14px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">🌿 GreenWheels</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="booking.html" style="text-decoration: underline;">All Cars</a></li>
+  </ul>
+</nav>
+
+<div class="header-section">
+  <h1>Choose Your Electric Journey</h1>
+  <p>Select from our premium fleet of sustainable vehicles</p>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCars('All')">All Cars</button>
+  <button class="filter-btn" onclick="filterCars('Sedan')">Sedans</button>
+  <button class="filter-btn" onclick="filterCars('SUV')">SUVs</button>
+  <button class="filter-btn" onclick="filterCars('Luxury')">Luxury</button>
+  <button class="filter-btn" onclick="filterCars('Hatchback')">Hatchbacks</button>
+</div>
+
+<div class="fleet-container">
+  <div class="cars-grid" id="fleetGrid">
+    </div>
+</div>
+
+<footer>
+  <p>© 2025 GreenWheels EV Rentals | Sustainable Mobility for Everyone</p>
+</footer>
+
+<script>
+  // Data structure mapped to car-info.html logic
+  const fleet = [
+    { id: 'tesla-model3', name: 'Tesla Model 3', tag: 'Sedan', price: 4500, emoji: '🚗', range: '560 km', seats: '5' },
+    { id: 'tata-nexon', name: 'Tata Nexon EV', tag: 'SUV', price: 2200, emoji: '🚙', range: '465 km', seats: '5' },
+    { id: 'mg-zs', name: 'MG ZS EV', tag: 'SUV', price: 2500, emoji: '🚘', range: '461 km', seats: '5' },
+    { id: 'ioniq6', name: 'Hyundai Ioniq 6', tag: 'Sedan', price: 3800, emoji: '🚗', range: '614 km', seats: '5' },
+    { id: 'bmw-ix', name: 'BMW iX', tag: 'Luxury', price: 9800, emoji: '🚖', range: '630 km', seats: '5' },
+    { id: 'kia-ev6', name: 'Kia EV6', tag: 'Sedan', price: 3500, emoji: '🚗', range: '528 km', seats: '5' },
+    { id: 'tigor', name: 'Tata Tigor EV', tag: 'Sedan', price: 1500, emoji: '🚗', range: '306 km', seats: '5' },
+    { id: 'xuv400', name: 'Mahindra XUV400', tag: 'SUV', price: 2000, emoji: '🚙', range: '456 km', seats: '5' },
+    { id: 'taycan', name: 'Porsche Taycan', tag: 'Luxury', price: 14000, emoji: '🏎️', range: '484 km', seats: '4' },
+    { id: 'vw-id4', name: 'Volkswagen ID.4', tag: 'SUV', price: 4200, emoji: '🚘', range: '520 km', seats: '5' },
+    { id: 'punch-ev', name: 'Tata Punch EV', tag: 'Hatchback', price: 1800, emoji: '🚗', range: '421 km', seats: '5' },
+    { id: 'byd-atto', name: 'BYD Atto 3', tag: 'SUV', price: 3000, emoji: '🚙', range: '521 km', seats: '5' }
+  ];
+
+  function displayFleet(filter = 'All') {
+    const grid = document.getElementById('fleetGrid');
+    grid.innerHTML = '';
+    
+    const filtered = filter === 'All' ? fleet : fleet.filter(c => c.tag === filter);
+    
+    filtered.forEach(car => {
+      const card = `
+        <div class="car-card">
+          <div class="car-img-box">${car.emoji}</div>
+          <div class="car-content">
+            <div class="car-name">${car.name}</div>
+            <div class="car-meta">
+              <span>${car.tag}</span>
+              <span style="color: #1a7a4a;">In Stock</span>
+            </div>
+            <div class="car-stats">
+              <span class="stat-pill">⚡ ${car.range}</span>
+              <span class="stat-pill">🪑 ${car.seats} Seats</span>
+            </div>
+            <div class="price-row">
+              <div class="price-val">₹${car.price.toLocaleString('en-IN')}<small style="font-size:12px; color:#888;"> /day</small></div>
+              <a href="car-info.html?car=${car.id}" class="btn-book">View Details</a>
+            </div>
+          </div>
+        </div>
+      `;
+      grid.innerHTML += card;
+    });
+  }
+
+  function filterCars(category) {
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if(btn.innerText.includes(category)) btn.classList.add('active');
+    });
+    displayFleet(category);
+  }
+
+  // Initial load
+  displayFleet();
+</script>
+</body>
+</html>
