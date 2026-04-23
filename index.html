@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GreenWheel - EV Car Rental</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    /* NAVBAR */
+    nav {
+      background-color: #1a6b3c;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .logo span { color: #a8e6c1; }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 15px;
+    }
+    .nav-links a:hover { text-decoration: underline; }
+    .nav-btn {
+      background-color: white;
+      color: #1a6b3c;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .nav-btn:hover { background-color: #a8e6c1; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #1a6b3c, #2d9e5f);
+      color: white;
+      padding: 80px 40px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 35px;
+      color: #d4f5e3;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+    .btn-green {
+      background-color: white;
+      color: #1a6b3c;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      border: 2px solid white;
+    }
+    .btn-green:hover { background-color: #a8e6c1; border-color: #a8e6c1; }
+    .btn-outline-white {
+      background-color: transparent;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      border: 2px solid white;
+    }
+    .btn-outline-white:hover { background-color: rgba(255,255,255,0.15); }
+
+    /* STATS BAR */
+    .stats-bar {
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      padding: 25px 40px;
+      border-bottom: 2px solid #e0e0e0;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 28px; font-weight: bold; color: #1a6b3c; }
+    .stat-label { font-size: 13px; color: #666; margin-top: 3px; }
+
+    /* SECTION STYLES */
+    section { padding: 60px 40px; }
+    .section-title {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 8px;
+      color: #222;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 40px;
+    }
+
+    /* FEATURES */
+    .features-bg { background-color: #fff; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 30px 25px;
+      text-align: center;
+    }
+    .feature-icon { font-size: 36px; margin-bottom: 15px; }
+    .feature-card h3 { font-size: 17px; margin-bottom: 10px; color: #1a6b3c; }
+    .feature-card p { font-size: 14px; color: #666; line-height: 1.6; }
+
+    /* FLEET PREVIEW */
+    .fleet-bg { background-color: #f5f5f5; }
+    .cars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .car-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      text-decoration: none;
+      color: #333;
+      display: block;
+      transition: box-shadow 0.2s;
+    }
+    .car-card:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
+    .car-img {
+      height: 150px;
+      background: linear-gradient(135deg, #e8f5ed, #c8e6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+    }
+    .car-details { padding: 18px; }
+    .car-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+    .car-type { font-size: 13px; color: #888; margin-bottom: 12px; }
+    .car-specs {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      color: #555;
+    }
+    .car-specs span { background: #f0f0f0; padding: 3px 8px; border-radius: 4px; }
+    .car-price { font-size: 20px; font-weight: bold; color: #1a6b3c; }
+    .car-price small { font-size: 13px; font-weight: normal; color: #888; }
+
+    .fleet-see-all {
+      text-align: center;
+      margin-top: 35px;
+    }
+    .btn-main {
+      background-color: #1a6b3c;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .btn-main:hover { background-color: #145530; }
+
+    /* HOW IT WORKS */
+    .how-bg { background-color: #fff; }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .step {
+      text-align: center;
+      padding: 20px 15px;
+    }
+    .step-num {
+      width: 50px; height: 50px;
+      background: #1a6b3c;
+      color: white;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+    }
+    .step h3 { font-size: 16px; margin-bottom: 8px; }
+    .step p { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* FOOTER */
+    footer {
+      background-color: #1a6b3c;
+      color: white;
+      text-align: center;
+      padding: 30px 40px;
+    }
+    footer p { font-size: 14px; color: #c8e6d4; }
+    footer .footer-logo { font-size: 20px; font-weight: bold; margin-bottom: 8px; }
+
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 50px 20px; }
+      .hero h1 { font-size: 28px; }
+      .features-grid, .cars-grid, .steps { grid-template-columns: 1fr; }
+      section { padding: 40px 20px; }
+      .stats-bar { gap: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="logo">Green<span>Wheel</span></a>
+  <div class="nav-links">
+    <a href="#fleet">Our Cars</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="booking.html" class="nav-btn">Book Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🚗 Rent an Electric Car Today</h1>
+  <p>Go green, go smart. Choose from our wide range of electric vehicles.</p>
+  <div class="hero-btns">
+    <a href="booking.html" class="btn-green">Book a Car</a>
+    <a href="#fleet" class="btn-outline-white">View Fleet</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">12+</div>
+    <div class="stat-label">EV Models</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">500km</div>
+    <div class="stat-label">Max Range</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1000+</div>
+    <div class="stat-label">Happy Customers</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">0g</div>
+    <div class="stat-label">CO₂ Emissions</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features-bg" id="features">
+  <h2 class="section-title">Why Choose GreenWheel?</h2>
+  <p class="section-subtitle">We make EV rental simple, affordable, and eco-friendly</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Fully Charged</h3>
+      <p>Every car is delivered with at least 80% battery charge. No range anxiety!</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Affordable Rates</h3>
+      <p>No hidden charges. Simple daily and hourly pricing that fits any budget.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <h3>Insurance Included</h3>
+      <p>All bookings include basic insurance coverage and 24/7 roadside support.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌱</div>
+      <h3>Eco Friendly</h3>
+      <p>Zero emissions. Every rental helps reduce carbon footprint for a cleaner planet.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📍</div>
+      <h3>Multiple Locations</h3>
+      <p>Pick up and drop off from any of our conveniently located rental stations.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <h3>Easy Booking</h3>
+      <p>Book online in minutes. Instant confirmation sent to your email.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET PREVIEW -->
+<section class="fleet-bg" id="fleet">
+  <h2 class="section-title">Our Popular Cars</h2>
+  <p class="section-subtitle">Pick the EV that suits your needs</p>
+  <div class="cars-grid">
+    <a href="car-info.html?car=tesla-model-3" class="car-card">
+      <div class="car-img">🚗</div>
+      <div class="car-details">
+        <div class="car-name">Tesla Model 3</div>
+        <div class="car-type">Sedan | Luxury</div>
+        <div class="car-specs">
+          <span>⚡ 570km</span>
+          <span>🪑 5 Seats</span>
+          <span>🚀 3.1s</span>
+        </div>
+        <div class="car-price">₹6,500 <small>/ day</small></div>
+      </div>
+    </a>
+    <a href="car-info.html?car=tata-nexon-ev" class="car-card">
+      <div class="car-img">🚙</div>
+      <div class="car-details">
+        <div class="car-name">Tata Nexon EV</div>
+        <div class="car-type">SUV | Compact</div>
+        <div class="car-specs">
+          <span>⚡ 437km</span>
+          <span>🪑 5 Seats</span>
+          <span>🚀 8.9s</span>
+        </div>
+        <div class="car-price">₹3,500 <small>/ day</small></div>
+      </div>
+    </a>
+    <a href="car-info.html?car=mg-zs-ev" class="car-card">
+      <div class="car-img">🚐</div>
+      <div class="car-details">
+        <div class="car-name">MG ZS EV</div>
+        <div class="car-type">SUV | Family</div>
+        <div class="car-specs">
+          <span>⚡ 461km</span>
+          <span>🪑 5 Seats</span>
+          <span>🚀 8.5s</span>
+        </div>
+        <div class="car-price">₹4,200 <small>/ day</small></div>
+      </div>
+    </a>
+  </div>
+  <div class="fleet-see-all">
+    <a href="booking.html" class="btn-main">See All 12 Cars →</a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-bg" id="how-it-works">
+  <h2 class="section-title">How It Works</h2>
+  <p class="section-subtitle">Book your EV in just 4 simple steps</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Browse Cars</h3>
+      <p>Browse our fleet of electric vehicles and filter by type, range, or price.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Choose a Car</h3>
+      <p>Click on a car to view full details, features, and availability.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Fill Details</h3>
+      <p>Enter your pickup location, dates, and personal information.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Confirm & Go!</h3>
+      <p>Get instant booking confirmation and pick up your car.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🌿 GreenWheel EV Rentals</div>
+  <p>© 2025 GreenWheel. All rights reserved. | contact@greenwheel.in</p>
+</footer>
+
+</body>
+</html>
